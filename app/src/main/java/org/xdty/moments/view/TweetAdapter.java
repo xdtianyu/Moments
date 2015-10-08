@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +47,16 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         }
 
         holder.mContent.setText(mTweets.get(position).getContent());
+
+        if (mTweets.get(position).getImages().size()>0) {
+            // show images
+            holder.mImages.setAdapter(new ImageAdapter(mContext, mTweets.get(position).getImages()));
+            holder.mImages.setVisibility(View.VISIBLE);
+        } else {
+            holder.mImages.setAdapter(null);
+            holder.mImages.setVisibility(View.GONE);
+        }
+
         if (mTweets.get(position).getComments().size()>0) {
             holder.mComment.setText(mTweets.get(position).getComments().get(0).getContent());
         }
@@ -68,6 +79,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         TextView mSender;
         TextView mContent;
         TextView mComment;
+        GridView mImages;
 
         public ViewHolder(View view) {
             super(view);
@@ -76,6 +88,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             mSender = (TextView) view.findViewById(R.id.sender);
             mContent = (TextView) view.findViewById(R.id.content);
             mComment = (TextView) view.findViewById(R.id.comment);
+            mImages = (GridView) view.findViewById(R.id.images);
         }
     }
 }

@@ -3,7 +3,6 @@ package org.xdty.moments.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +34,8 @@ import retrofit.RestAdapter;
 public class MainActivity extends AppCompatActivity {
 
     public final static String TAG = "MainActivity";
+
+    public final static String USER = "jsmith";
 
     @ViewById
     RecyclerView recyclerView;
@@ -74,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
         Moment moment = restAdapter.create(Moment.class);
 
         try {
-            mUser = moment.user("jsmith");
-            mTweets = moment.tweet("jsmith");
+            mUser = moment.user(USER);
+            mTweets = moment.tweet(USER);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             makeToast(getString(R.string.network_error));
             return;
         }
-        Log.d(TAG, "return");
+
         updateProfile();
         updateTweets();
     }

@@ -29,7 +29,19 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:textSize="17sp"/>
+        <GridView
+            android:id="@+id/images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="3dp"
+            android:horizontalSpacing="3dp"
+            android:columnWidth="40dp"
+            android:stretchMode="columnWidth"
+            android:visibility="gone"
+            android:gravity="center"/>
 
+        <!-- TODO: may replace with ListView -->
         <TextView
             android:id="@+id/comment"
             android:layout_width="match_parent"
