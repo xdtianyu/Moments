@@ -21,7 +21,7 @@ public class Tweet {
     private Sender sender;
     @SerializedName("comments")
     @Expose
-    private List<Object> comments = new ArrayList<Object>();
+    private List<Comment> comments = new ArrayList<Comment>();
     @SerializedName("error")
     @Expose
     private String error;
@@ -74,14 +74,14 @@ public class Tweet {
     /**
      * @return The comments
      */
-    public List<Object> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
     /**
      * @param comments The comments
      */
-    public void setComments(List<Object> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 

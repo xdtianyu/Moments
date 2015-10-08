@@ -46,7 +46,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         }
 
         holder.mContent.setText(mTweets.get(position).getContent());
-
+        if (mTweets.get(position).getComments().size()>0) {
+            holder.mComment.setText(mTweets.get(position).getComments().get(0).getContent());
+        }
     }
 
     @Override
