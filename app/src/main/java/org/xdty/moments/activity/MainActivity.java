@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
@@ -38,29 +39,30 @@ public class MainActivity extends AppCompatActivity {
     @ViewById
     RecyclerView recyclerView;
 
-    @ViewById
-    TextView username;
-
-    @ViewById
-    ImageView avatar;
-
-    @ViewById
-    ImageView profileImage;
-
     TweetAdapter tweetAdapter;
 
     private User mUser = null;
     private List<Tweet> mTweets = null;
 
+    private TextView mUsername;
+    private ImageView mAvatar;
+    private ImageView mProfileImage;
+
     @AfterViews
     public void afterViews() {
         getTweets();
+
+        RecyclerViewHeader header = RecyclerViewHeader.fromXml(this, R.layout.header);
+
+        mUsername = (TextView) header.findViewById(R.id.username);
+        mAvatar = (ImageView) header.findViewById(R.id.avatar);
+        mProfileImage = (ImageView) header.findViewById(R.id.profile_image);
 
         tweetAdapter = new TweetAdapter(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(tweetAdapter);
-
+        header.attachTo(recyclerView);
     }
 
     @Background
@@ -94,12 +96,12 @@ public class MainActivity extends AppCompatActivity {
 
     @UiThread
     public void updateProfile() {
-        username.setText(mUser.getNick());
-        Picasso.with(this).load(mUser.getAvatar()).into(avatar);
+        mUsername.setText(mUser.getNick());
+        Picasso.with(this).load(mUser.getAvatar()).into(mAvatar);
         Picasso.with(this).load(mUser.getProfileImage())
                 .centerCrop()
-                .resize(profileImage.getMeasuredWidth(), profileImage.getMeasuredHeight())
-                .into(profileImage);
+                .resize(mProfileImage.getMeasuredWidth(), mProfileImage.getMeasuredHeight())
+                .into(mProfileImage);
     }
 
     @UiThread
