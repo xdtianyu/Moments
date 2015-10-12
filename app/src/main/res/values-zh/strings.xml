@@ -3,4 +3,6 @@
     <string name="app_name">Moments</string>
     <string name="action_settings">设置</string>
     <string name="network_error">网络错误</string>
+    <string name="sent_time">昨天</string>
+    <string name="username">加载中</string>
 </resources>

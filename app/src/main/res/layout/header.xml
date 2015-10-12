@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="180dp"
-              android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="240dp"
+             android:background="@color/tweet_background"
+             android:orientation="vertical">
 
     <ImageView
         android:id="@+id/profile_image"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:contentDescription="@string/profile_image"/>
 
     <RelativeLayout
@@ -19,15 +20,19 @@
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_toLeftOf="@+id/avatar"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
             android:text="@string/username"/>
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignParentRight="true"
-            android:contentDescription="@string/avatar"/>
+            android:background="@drawable/header_avatar_bg"
+            android:contentDescription="@string/avatar"
+            android:layout_marginRight="10dp"/>
     </RelativeLayout>
-</LinearLayout>
+</FrameLayout>

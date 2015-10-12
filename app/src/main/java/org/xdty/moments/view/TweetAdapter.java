@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -43,22 +44,29 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         Sender sender = mTweets.get(position).getSender();
         if (sender != null) {
             holder.mSender.setText(sender.getNick());
-            Picasso.with(mContext).load(sender.getAvatar()).into(holder.mAvatar);
+            Picasso.with(mContext).load(sender.getAvatar())
+                    .centerCrop()
+                    .resize(160, 160) // TODO: hard coded
+                    .into(holder.mAvatar);
         }
 
         holder.mContent.setText(mTweets.get(position).getContent());
 
-        if (mTweets.get(position).getImages().size()>0) {
+        if (mTweets.get(position).getImages().size() > 0) {
             // show images
-            holder.mImages.setAdapter(new ImageAdapter(mContext, mTweets.get(position).getImages()));
+            holder.mImages.setAdapter(
+                    new ImageAdapter(mContext, mTweets.get(position).getImages()));
             holder.mImages.setVisibility(View.VISIBLE);
         } else {
             holder.mImages.setAdapter(null);
             holder.mImages.setVisibility(View.GONE);
         }
 
-        if (mTweets.get(position).getComments().size()>0) {
+        if (mTweets.get(position).getComments().size() > 0) {
             holder.mComment.setText(mTweets.get(position).getComments().get(0).getContent());
+            holder.mCommentLayout.setVisibility(View.VISIBLE);
+        } else {
+            holder.mCommentLayout.setVisibility(View.GONE);
         }
     }
 
@@ -79,6 +87,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         TextView mSender;
         TextView mContent;
         TextView mComment;
+        LinearLayout mCommentLayout;
         GridView mImages;
 
         public ViewHolder(View view) {
@@ -88,6 +97,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             mSender = (TextView) view.findViewById(R.id.sender);
             mContent = (TextView) view.findViewById(R.id.content);
             mComment = (TextView) view.findViewById(R.id.comment);
+            mCommentLayout = (LinearLayout) view.findViewById(R.id.comment_layout);
             mImages = (GridView) view.findViewById(R.id.images);
         }
     }

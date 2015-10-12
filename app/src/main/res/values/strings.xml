@@ -7,4 +7,6 @@
     <string name="profile_image">profile image</string>
     <string name="username">Loading</string>
     <string name="image">image</string>
+    <string name="sent_time">Yesterday</string>
+    <string name="reply">reply</string>
 </resources>

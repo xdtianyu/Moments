@@ -15,6 +15,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+
 import org.xdty.moments.R;
 import org.xdty.moments.model.Config;
 import org.xdty.moments.model.Moment;
