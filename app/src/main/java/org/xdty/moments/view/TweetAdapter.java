@@ -2,6 +2,8 @@ package org.xdty.moments.view;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.xdty.moments.R;
+import org.xdty.moments.model.Comment;
 import org.xdty.moments.model.Sender;
 import org.xdty.moments.model.Tweet;
 
@@ -63,7 +66,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         }
 
         if (mTweets.get(position).getComments().size() > 0) {
-            holder.mComment.setText(mTweets.get(position).getComments().get(0).getContent());
+
+            Comment comment = mTweets.get(position).getComments().get(0);
+
+            Spanned content = Html.fromHtml("<font color=\"#669999\">" + comment.getSender().getNick()
+                    + "</font>: " + comment.getContent());
+
+            holder.mComment.setText(content);
             holder.mCommentLayout.setVisibility(View.VISIBLE);
         } else {
             holder.mCommentLayout.setVisibility(View.GONE);
