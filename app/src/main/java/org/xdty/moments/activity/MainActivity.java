@@ -3,6 +3,7 @@ package org.xdty.moments.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +16,6 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-
 import org.xdty.moments.R;
 import org.xdty.moments.model.Config;
 import org.xdty.moments.model.Moment;
@@ -42,16 +42,17 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     TweetAdapter tweetAdapter;
-
+    boolean isLoading = false;
     private User mUser = null;
     private List<Tweet> mTweets = null;
-
     private TextView mUsername;
     private ImageView mAvatar;
     private ImageView mProfileImage;
+    private int mTweetPage = 0;
 
     @AfterViews
     public void afterViews() {
+
         getTweets();
 
         RecyclerViewHeader header = RecyclerViewHeader.fromXml(this, R.layout.header);
@@ -62,9 +63,30 @@ public class MainActivity extends AppCompatActivity {
 
         tweetAdapter = new TweetAdapter(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(tweetAdapter);
         header.attachTo(recyclerView);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastPosition = linearLayoutManager.findLastVisibleItemPosition();
+
+                if (lastPosition == recyclerView.getAdapter().getItemCount() - 1) {
+                    //Log.d(TAG, "" + lastPosition);
+
+                    // load more tweets
+                    loadMoreTweets();
+                }
+            }
+        });
     }
 
     @Background
@@ -116,7 +138,54 @@ public class MainActivity extends AppCompatActivity {
             }
             tweets.add(tweet);
         }
-        tweetAdapter.swap(tweets);
+
+        if (Config.SEPARATE_TWEET) {
+            mTweets.clear();
+            mTweets.addAll(tweets);
+            // show first five tweets.
+            loadMoreTweets();
+        } else {
+            // load all tweets into RecyclerViewer
+            tweetAdapter.swap(tweets);
+        }
+    }
+
+    @Background
+    public void loadMoreTweets() {
+        Log.e(TAG, "mTweetPage:" + mTweetPage);
+        if (!isLoading) {
+
+            isLoading = true;
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            List<Tweet> tweets = new ArrayList<>();
+
+            for (int i = 0; i < Config.TWEET_PER_PAGE; i++) {
+                int position = mTweetPage * Config.TWEET_PER_PAGE + i;
+                if (position < mTweets.size()) {
+                    tweets.add(mTweets.get(position));
+                } else {
+                    makeToast(getString(R.string.no_more_tweets));
+                    break;
+                }
+            }
+
+            mTweetPage++;
+
+            appendTweets(tweets);
+
+            isLoading = false;
+        }
+    }
+
+    @UiThread
+    public void appendTweets(List<Tweet> tweets) {
+        tweetAdapter.append(tweets);
     }
 
     @UiThread

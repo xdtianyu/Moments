@@ -9,4 +9,5 @@
     <string name="image">image</string>
     <string name="sent_time">Yesterday</string>
     <string name="reply">reply</string>
+    <string name="no_more_tweets">No more tweets found.</string>
 </resources>

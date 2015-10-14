@@ -5,4 +5,5 @@
     <string name="network_error">网络错误</string>
     <string name="sent_time">昨天</string>
     <string name="username">加载中</string>
+    <string name="no_more_tweets">没有更多推文了</string>
 </resources>

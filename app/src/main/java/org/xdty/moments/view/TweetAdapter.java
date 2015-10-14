@@ -81,6 +81,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void append(List<Tweet> tweets) {
+        mTweets.addAll(tweets);
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mAvatar;
