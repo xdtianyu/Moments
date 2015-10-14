@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +49,7 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO: fix inflater and image size.
         View view = mLayoutInflater.inflate(R.layout.grid_item, parent, false);
-        ImageView imageView = (ImageView) view.findViewById(R.id.image);
+        SquareImageView imageView = (SquareImageView) view.findViewById(R.id.image);
         Picasso.with(mContext).load(mImages.get(position).getUrl())
                 .centerCrop()
                 .resize(160, 160)

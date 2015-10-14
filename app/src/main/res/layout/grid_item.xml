@@ -4,10 +4,10 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <ImageView
+    <org.xdty.moments.view.SquareImageView
         android:id="@+id/image"
-        android:padding="5dp"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:contentDescription="@string/image"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/image"
+        android:padding="5dp"/>
 </LinearLayout>
