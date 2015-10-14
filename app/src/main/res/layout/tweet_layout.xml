@@ -34,16 +34,16 @@
             android:textColor="@android:color/black"
             android:textSize="17sp"/>
 
-        <GridView
+        <org.xdty.moments.view.ExpandableHeightGridView
             android:id="@+id/images"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:columnWidth="80dp"
             android:gravity="center"
-            android:horizontalSpacing="3dp"
-            android:numColumns="auto_fit"
+            android:horizontalSpacing="2dp"
+            android:isScrollContainer="false"
+            android:numColumns="3"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="3dp"
+            android:verticalSpacing="2dp"
             android:visibility="gone"/>
 
         <RelativeLayout

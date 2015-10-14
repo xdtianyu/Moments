@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // FIXME: pulling down only at views top and fix header's missing.
         // pulling down the view to refresh
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

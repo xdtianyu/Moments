@@ -7,7 +7,6 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -69,8 +68,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
             Comment comment = mTweets.get(position).getComments().get(0);
 
-            Spanned content = Html.fromHtml("<font color=\"#669999\">" + comment.getSender().getNick()
-                    + "</font>: " + comment.getContent());
+            Spanned content =
+                    Html.fromHtml("<font color=\"#669999\">" + comment.getSender().getNick()
+                            + "</font>: " + comment.getContent());
 
             holder.mComment.setText(content);
             holder.mCommentLayout.setVisibility(View.VISIBLE);
@@ -102,7 +102,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         TextView mContent;
         TextView mComment;
         LinearLayout mCommentLayout;
-        GridView mImages;
+        ExpandableHeightGridView mImages;
 
         public ViewHolder(View view) {
             super(view);
@@ -112,7 +112,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             mContent = (TextView) view.findViewById(R.id.content);
             mComment = (TextView) view.findViewById(R.id.comment);
             mCommentLayout = (LinearLayout) view.findViewById(R.id.comment_layout);
-            mImages = (GridView) view.findViewById(R.id.images);
+            mImages = (ExpandableHeightGridView) view.findViewById(R.id.images);
+            mImages.setExpanded(true);
         }
     }
 }
