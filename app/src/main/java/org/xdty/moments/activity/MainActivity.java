@@ -1,5 +1,6 @@
 package org.xdty.moments.activity;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     public final static String USER = "jsmith";
 
     @ViewById
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    @ViewById
     RecyclerView recyclerView;
 
     TweetAdapter tweetAdapter;
@@ -72,6 +76,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
+                int firstPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                if (firstPosition > 0) {
+                    swipeRefreshLayout.setEnabled(false);
+                } else {
+                    swipeRefreshLayout.setEnabled(true);
+                }
             }
 
             @Override
@@ -87,10 +98,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // pulling down the view to refresh
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                mTweetPage = 0;
+                getTweets();
+            }
+        });
     }
 
     @Background
     public void getTweets() {
+
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Config.PROVIDER_URI)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -142,12 +164,18 @@ public class MainActivity extends AppCompatActivity {
         if (Config.SEPARATE_TWEET) {
             mTweets.clear();
             mTweets.addAll(tweets);
+
+            // clear recycler view
+            tweetAdapter.swap(new ArrayList<Tweet>());
+
             // show first five tweets.
             loadMoreTweets();
         } else {
             // load all tweets into RecyclerViewer
             tweetAdapter.swap(tweets);
         }
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Background
