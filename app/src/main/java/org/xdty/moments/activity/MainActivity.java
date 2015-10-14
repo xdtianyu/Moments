@@ -4,7 +4,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 int lastPosition = linearLayoutManager.findLastVisibleItemPosition();
 
                 if (lastPosition == recyclerView.getAdapter().getItemCount() - 1) {
-                    //Log.d(TAG, "" + lastPosition);
 
                     // load more tweets
                     loadMoreTweets();
@@ -180,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Background
     public void loadMoreTweets() {
-        Log.e(TAG, "mTweetPage:" + mTweetPage);
+
         if (!isLoading) {
 
             isLoading = true;
