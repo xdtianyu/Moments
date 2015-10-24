@@ -30,10 +30,21 @@ android {
         versionCode 2
         versionName "1.0.1"
     }
+
+    signingConfigs {
+        release {
+            storeFile rootProject.file("release.jks")
+            storePassword "${System.env.KEYSTORE_PASSWORD}"
+            keyAlias "${System.env.FINANCE_ALIAS}"
+            keyPassword "${System.env.ALIAS_PASSWORD}"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
