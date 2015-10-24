@@ -4,12 +4,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
-import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -48,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
     boolean isLoading = false;
     private User mUser = null;
     private List<Tweet> mTweets = null;
-    private TextView mUsername;
-    private ImageView mAvatar;
-    private ImageView mProfileImage;
     private int mTweetPage = 0;
 
     @AfterViews
@@ -58,18 +50,11 @@ public class MainActivity extends AppCompatActivity {
 
         getTweets();
 
-        RecyclerViewHeader header = RecyclerViewHeader.fromXml(this, R.layout.header);
-
-        mUsername = (TextView) header.findViewById(R.id.username);
-        mAvatar = (ImageView) header.findViewById(R.id.avatar);
-        mProfileImage = (ImageView) header.findViewById(R.id.profile_image);
-
         tweetAdapter = new TweetAdapter(this);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(tweetAdapter);
-        header.attachTo(recyclerView);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -141,12 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     @UiThread
     public void updateProfile() {
-        mUsername.setText(mUser.getNick());
-        Picasso.with(this).load(mUser.getAvatar()).into(mAvatar);
-        Picasso.with(this).load(mUser.getProfileImage())
-                .centerCrop()
-                .resize(mProfileImage.getMeasuredWidth(), mProfileImage.getMeasuredHeight())
-                .into(mProfileImage);
+        tweetAdapter.updateProfile(mUser);
     }
 
     @UiThread
@@ -184,17 +164,20 @@ public class MainActivity extends AppCompatActivity {
 
             isLoading = true;
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            // simulate network delay
+            if (Config.SIMULATE_NETWORK_DELAY) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             List<Tweet> tweets = new ArrayList<>();
 
             for (int i = 0; i < Config.TWEET_PER_PAGE; i++) {
                 int position = mTweetPage * Config.TWEET_PER_PAGE + i;
-                if (position < mTweets.size()) {
+                if (mTweets != null && position < mTweets.size()) {
                     tweets.add(mTweets.get(position));
                 } else {
                     makeToast(getString(R.string.no_more_tweets));

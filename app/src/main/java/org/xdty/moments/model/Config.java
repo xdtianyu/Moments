@@ -10,4 +10,6 @@ public class Config {
     public final static boolean SEPARATE_TWEET = true;
 
     public final static int TWEET_PER_PAGE = 5;
+
+    public final static boolean SIMULATE_NETWORK_DELAY = false;
 }
