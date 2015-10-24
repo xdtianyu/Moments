@@ -35,7 +35,7 @@ android {
         release {
             storeFile rootProject.file("release.jks")
             storePassword "${System.env.KEYSTORE_PASSWORD}"
-            keyAlias "${System.env.FINANCE_ALIAS}"
+            keyAlias "${System.env.MOMENTS_ALIAS}"
             keyPassword "${System.env.ALIAS_PASSWORD}"
         }
     }
