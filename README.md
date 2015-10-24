@@ -1,6 +1,10 @@
 # Moments#
 [Moments](https://github.com/xdtianyu/Moments) is a sample app which looks like WeChat Moments, it's still under development.
 
+[![Build Status](https://travis-ci.org/xdtianyu/Moments.svg?branch=master)](https://travis-ci.org/xdtianyu/Moments)
+
+[![Download Status](https://img.shields.io/github/downloads/xdtianyu/Moments/v1.0.1/total.svg)](https://github.com/xdtianyu/Moments/releases/download/v1.0.1/Moments-release-v1.0.1.apk)
+
 Thanks to
 -------
 
