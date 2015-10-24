@@ -20,6 +20,7 @@ notifications:
   email: false
 
 before_install:
+  - openssl aes-256-cbc -K $encrypted_f68dd41565b2_key -iv $encrypted_f68dd41565b2_iv -in release.jks.enc -out release.jks -d
   - source .travis/env.sh
 
 script:
