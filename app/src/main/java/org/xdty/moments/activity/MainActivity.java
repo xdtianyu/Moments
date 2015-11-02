@@ -58,25 +58,20 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-                int firstPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                if (firstPosition > 0) {
+                int lastPosition = linearLayoutManager.findLastVisibleItemPosition();
+
+                // can scroll up and disable refresh
+                if (recyclerView.canScrollVertically(-1)) {
                     swipeRefreshLayout.setEnabled(false);
                 } else {
                     swipeRefreshLayout.setEnabled(true);
                 }
-            }
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int lastPosition = linearLayoutManager.findLastVisibleItemPosition();
-
-                if (lastPosition == recyclerView.getAdapter().getItemCount() - 1) {
-
-                    // load more tweets
+                // can not scroll down and load more tweets
+                if (!recyclerView.canScrollVertically(1)) {
                     loadMoreTweets();
                 }
             }
@@ -167,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             // simulate network delay
             if (Config.SIMULATE_NETWORK_DELAY) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
