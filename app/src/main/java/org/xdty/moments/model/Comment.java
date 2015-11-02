@@ -8,12 +8,29 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Comment {
 
+    @SerializedName("id")
+    @Expose
+    private int id;
     @SerializedName("content")
     @Expose
     private String content;
     @SerializedName("sender")
     @Expose
     private Sender sender;
+
+    /**
+     * @return The id
+     */
+    public int getID() {
+        return id;
+    }
+
+    /**
+     * @param id The id
+     */
+    public void setContent(int id) {
+        this.id = id;
+    }
 
     /**
      *

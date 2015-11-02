@@ -10,6 +10,9 @@ import java.util.List;
  * Created by ty on 15-10-5.
  */
 public class Tweet {
+    @SerializedName("id")
+    @Expose
+    private int id;
     @SerializedName("content")
     @Expose
     private String content;
@@ -28,6 +31,20 @@ public class Tweet {
     @SerializedName("unknown error")
     @Expose
     private String unknownError;
+
+    /**
+     * @return The id
+     */
+    public int getID() {
+        return id;
+    }
+
+    /**
+     * @param id The id
+     */
+    public void setContent(int id) {
+        this.id = id;
+    }
 
     /**
      * @return The content

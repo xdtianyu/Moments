@@ -5,7 +5,9 @@ package org.xdty.moments.model;
  */
 public class Config {
 
-    public final static String PROVIDER_URI = "http://thoughtworks-ios.herokuapp.com/";
+//    public final static String PROVIDER_URI = "http://thoughtworks-ios.herokuapp.com/";
+//    public final static String PROVIDER_URI = "http://192.168.4.134:5000/";
+    public final static String PROVIDER_URI = "https://moments.xdty.org/";
 
     public final static boolean SEPARATE_TWEET = true;
 

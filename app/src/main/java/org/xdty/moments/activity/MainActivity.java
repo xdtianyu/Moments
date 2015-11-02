@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String TAG = "MainActivity";
 
-    public final static String USER = "jsmith";
+    public final static String USER = "tianyu";
 
     @ViewById
     SwipeRefreshLayout swipeRefreshLayout;
@@ -180,14 +180,15 @@ public class MainActivity extends AppCompatActivity {
                 if (mTweets != null && position < mTweets.size()) {
                     tweets.add(mTweets.get(position));
                 } else {
-                    makeToast(getString(R.string.no_more_tweets));
+//                    makeToast(getString(R.string.no_more_tweets));
                     break;
                 }
             }
 
-            mTweetPage++;
-
-            appendTweets(tweets);
+            if (tweets.size() > 0) {
+                mTweetPage++;
+                appendTweets(tweets);
+            }
 
             isLoading = false;
         }

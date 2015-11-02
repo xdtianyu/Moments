@@ -14,8 +14,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.apmem.tools.layouts.FlowLayout;
 import org.xdty.moments.R;
 import org.xdty.moments.model.Comment;
+import org.xdty.moments.model.Image;
 import org.xdty.moments.model.Sender;
 import org.xdty.moments.model.Tweet;
 import org.xdty.moments.model.User;
@@ -79,12 +81,23 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             tweetViewHolder.content.setText(mTweets.get(position).getContent());
 
             if (mTweets.get(position).getImages().size() > 0) {
+
+                tweetViewHolder.images.removeAllViewsInLayout();
+
                 // show images
-                tweetViewHolder.images.setAdapter(
-                        new ImageAdapter(mContext, mTweets.get(position).getImages()));
+                for (Image image : mTweets.get(position).getImages()) {
+                    SquareImageView imageView =
+                            (SquareImageView) mLayoutInflater.inflate(R.layout.tweet_image,
+                                    tweetViewHolder.images, false);
+                    Picasso.with(mContext).load(image.getUrl())
+                            .centerCrop()
+                            .resize(160, 160)
+                            .into(imageView);
+                    tweetViewHolder.images.addView(imageView);
+                    tweetViewHolder.images.invalidate();
+                }
                 tweetViewHolder.images.setVisibility(View.VISIBLE);
             } else {
-                tweetViewHolder.images.setAdapter(null);
                 tweetViewHolder.images.setVisibility(View.GONE);
             }
 
@@ -157,7 +170,7 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
         TextView content;
         TextView comment;
         LinearLayout commentLayout;
-        ExpandableHeightGridView images;
+        FlowLayout images;
 
         public TweetViewHolder(View view) {
             super(view);
@@ -167,8 +180,7 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             content = (TextView) view.findViewById(R.id.content);
             comment = (TextView) view.findViewById(R.id.comment);
             commentLayout = (LinearLayout) view.findViewById(R.id.comment_layout);
-            images = (ExpandableHeightGridView) view.findViewById(R.id.images);
-            images.setExpanded(true);
+            images = (FlowLayout) view.findViewById(R.id.images);
         }
     }
 
