@@ -3,7 +3,9 @@
 
 [![Build Status](https://travis-ci.org/xdtianyu/Moments.svg?branch=master)](https://travis-ci.org/xdtianyu/Moments)
 
-[![Download Status](https://img.shields.io/github/downloads/xdtianyu/Moments/v1.0.1/total.svg)](https://github.com/xdtianyu/Moments/releases/download/v1.0.1/Moments-release-v1.0.1.apk)
+[![Download Moments-release-v1.0.2.apk](https://img.shields.io/github/downloads/xdtianyu/Moments/v1.0.2/total.svg)](https://github.com/xdtianyu/Moments/releases/download/v1.0.2/Moments-release-v1.0.2.apk)
+
+[![Download Moments-release-v1.0.1.apk](https://img.shields.io/github/downloads/xdtianyu/Moments/v1.0.1/total.svg)](https://github.com/xdtianyu/Moments/releases/download/v1.0.1/Moments-release-v1.0.1.apk)
 
 Thanks to
 -------
@@ -13,8 +15,6 @@ Thanks to
 [retrofit](https://github.com/square/retrofit): Type-safe HTTP client for Android and Java by Square, Inc.
 
 [picasso](https://github.com/square/picasso): A powerful image downloading and caching library for Android.
-
-[recyclerviewheader](https://github.com/blipinsk/RecyclerViewHeader): Super fast and easy way to create header for Android RecyclerView.
 
 LICENSE
 -------
