@@ -1,11 +1,10 @@
 package org.xdty.moments.activity;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
-
-import com.baoyz.widget.PullRefreshLayout;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public final static String USER = "tianyu";
 
     @ViewById
-    PullRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @ViewById
     RecyclerView recyclerView;
@@ -77,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        
+
         // pulling down the view to refresh
-        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 

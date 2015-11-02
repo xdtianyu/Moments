@@ -1,4 +1,4 @@
-<com.baoyz.widget.PullRefreshLayout
+<android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/swipe_refresh_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -14,6 +14,6 @@
             android:layout_height="match_parent"
             android:background="@color/list_background"/>
     </FrameLayout>
-</com.baoyz.widget.PullRefreshLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
 
 
