@@ -1,10 +1,11 @@
 package org.xdty.moments.activity;
 
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
+
+import com.baoyz.widget.PullRefreshLayout;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public final static String USER = "tianyu";
 
     @ViewById
-    SwipeRefreshLayout swipeRefreshLayout;
+    PullRefreshLayout swipeRefreshLayout;
 
     @ViewById
     RecyclerView recyclerView;
@@ -76,10 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // FIXME: pulling down only at views top and fix header's missing.
+        
         // pulling down the view to refresh
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
