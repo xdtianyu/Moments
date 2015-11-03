@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/tweet_header_layout"
+<FrameLayout android:id="@+id/tweet_header_layout"
+             xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="240dp"
              android:orientation="vertical">
@@ -12,10 +12,11 @@
         android:contentDescription="@string/profile_image"/>
 
     <RelativeLayout
+        android:id="@+id/profile_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="horizontal">
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/username"
@@ -24,14 +25,14 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/avatar"
             android:gravity="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/light_font"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
-            android:text="@string/username"/>
+            android:text="@string/username"
+            android:textColor="@color/light_font"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <ImageView
             android:id="@+id/avatar"

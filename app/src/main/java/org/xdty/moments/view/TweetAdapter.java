@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rey.material.widget.ProgressView;
@@ -123,6 +124,8 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             if (mUser != null) {
                 final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
 
+                headerViewHolder.profileLayout.setVisibility(View.VISIBLE);
+
                 if (mTweets.size() > 1) {
                     headerViewHolder.headerLayout.setBackgroundColor(
                             ContextCompat.getColor(mContext, R.color.tweet_background));
@@ -211,6 +214,7 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         FrameLayout headerLayout;
+        RelativeLayout profileLayout;
         ImageView profileImage;
         TextView username;
         ImageView avatar;
@@ -219,6 +223,7 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             super(view);
 
             headerLayout = (FrameLayout) view.findViewById(R.id.tweet_header_layout);
+            profileLayout = (RelativeLayout) view.findViewById(R.id.profile_layout);
             profileImage = (ImageView) view.findViewById(R.id.profile_image);
             username = (TextView) view.findViewById(R.id.username);
             avatar = (ImageView) view.findViewById(R.id.avatar);
