@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int lastPosition = linearLayoutManager.findLastVisibleItemPosition();
-
                 // can scroll up and disable refresh
                 if (recyclerView.canScrollVertically(-1)) {
                     swipeRefreshLayout.setEnabled(false);

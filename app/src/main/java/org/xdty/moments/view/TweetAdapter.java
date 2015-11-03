@@ -90,8 +90,8 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
                             (SquareImageView) mLayoutInflater.inflate(R.layout.tweet_image,
                                     tweetViewHolder.images, false);
                     Picasso.with(mContext).load(image.getUrl())
+                            .fit()
                             .centerCrop()
-                            .resize(160, 160)
                             .into(imageView);
                     tweetViewHolder.images.addView(imageView);
                     tweetViewHolder.images.invalidate();
@@ -120,9 +120,8 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
                 headerViewHolder.username.setText(mUser.getNick());
                 Picasso.with(mContext).load(mUser.getAvatar()).into(headerViewHolder.avatar);
                 Picasso.with(mContext).load(mUser.getProfileImage())
-//                    .resize(headerViewHolder.profileImage.getMeasuredWidth(),
-//                            headerViewHolder.profileImage.getMeasuredHeight())
-//                    .centerCrop()
+                        .fit()
+                        .centerCrop()
                         .into(headerViewHolder.profileImage);
             }
         } else if (holder instanceof FooterViewHolder) {
