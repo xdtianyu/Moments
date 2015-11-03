@@ -123,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
 
     @UiThread
     public void updateTweets() {
+
+        tweetAdapter.setHasMoreTweets(true);
+
         List<Tweet> tweets = new ArrayList<>();
         for (Tweet tweet : mTweets) {
             // ignore the tweet which does not contain a content and images
@@ -144,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // load all tweets into RecyclerViewer
             tweetAdapter.swap(tweets);
+
+            tweetAdapter.setHasMoreTweets(false);
         }
 
         swipeRefreshLayout.setRefreshing(false);
@@ -173,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     tweets.add(mTweets.get(position));
                 } else {
 //                    makeToast(getString(R.string.no_more_tweets));
+                    tweetAdapter.setHasMoreTweets(false);
                     break;
                 }
             }

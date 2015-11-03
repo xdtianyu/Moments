@@ -16,6 +16,8 @@ Thanks to
 
 [picasso](https://github.com/square/picasso): A powerful image downloading and caching library for Android.
 
+[MaterialLibrary](https://github.com/rey5137/material): An Open Source Android library that back-port Material Design components to pre-Lolipop Android.
+
 LICENSE
 -------
 

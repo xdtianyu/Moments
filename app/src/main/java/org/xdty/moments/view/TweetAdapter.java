@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.rey.material.widget.ProgressView;
 import com.squareup.picasso.Picasso;
 
 import org.apmem.tools.layouts.FlowLayout;
@@ -42,6 +43,8 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Context mContext;
 
     private User mUser = null;
+
+    private boolean mHasMoreTweets = true;
 
     public TweetAdapter(Context context) {
         mContext = context;
@@ -75,8 +78,8 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             if (sender != null) {
                 tweetViewHolder.sender.setText(sender.getNick());
                 Picasso.with(mContext).load(sender.getAvatar())
+                        .fit()
                         .centerCrop()
-                        .resize(160, 160) // TODO: hard coded
                         .into(tweetViewHolder.avatar);
             }
 
@@ -137,7 +140,14 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             }
         } else if (holder instanceof FooterViewHolder) {
             final FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
-            footerViewHolder.footerText.setText(R.string.no_more_tweets);
+            if (mHasMoreTweets) {
+                footerViewHolder.footerText.setVisibility(View.GONE);
+                footerViewHolder.progressView.setVisibility(View.VISIBLE);
+            } else {
+                footerViewHolder.progressView.setVisibility(View.GONE);
+                footerViewHolder.footerText.setText(R.string.no_more_tweets);
+                footerViewHolder.footerText.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -171,6 +181,10 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void updateProfile(User user) {
         mUser = user;
         notifyDataSetChanged();
+    }
+
+    public void setHasMoreTweets(boolean hasMoreTweets) {
+        mHasMoreTweets = hasMoreTweets;
     }
 
     public static class TweetViewHolder extends RecyclerView.ViewHolder {
@@ -213,11 +227,13 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public static class FooterViewHolder extends RecyclerView.ViewHolder {
 
+        ProgressView progressView;
         TextView footerText;
 
         public FooterViewHolder(View view) {
             super(view);
-            footerText = (TextView) view.findViewById(R.id.footer);
+            progressView = (ProgressView) view.findViewById(R.id.footer_progress);
+            footerText = (TextView) view.findViewById(R.id.footer_text);
         }
     }
 }
