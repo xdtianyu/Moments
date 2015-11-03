@@ -6,4 +6,5 @@
     <color name="grey_font">#ff9e9e9e</color>
     <color name="text_shadow">#7f000000</color>
     <color name="text_shadow_white">#ffffff</color>
+    <color name="transparent">#00000000</color>
 </resources>

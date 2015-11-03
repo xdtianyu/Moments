@@ -1,6 +1,7 @@
 package org.xdty.moments.view;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.Html;
@@ -8,6 +9,7 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -117,6 +119,15 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
         } else if (holder instanceof HeaderViewHolder) {
             if (mUser != null) {
                 final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+
+                if (mTweets.size() > 1) {
+                    headerViewHolder.headerLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.tweet_background));
+                } else {
+                    headerViewHolder.headerLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.transparent));
+                }
+
                 headerViewHolder.username.setText(mUser.getNick());
                 Picasso.with(mContext).load(mUser.getAvatar()).into(headerViewHolder.avatar);
                 Picasso.with(mContext).load(mUser.getProfileImage())
@@ -185,6 +196,7 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
+        FrameLayout headerLayout;
         ImageView profileImage;
         TextView username;
         ImageView avatar;
@@ -192,6 +204,7 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
         public HeaderViewHolder(View view) {
             super(view);
 
+            headerLayout = (FrameLayout) view.findViewById(R.id.tweet_header_layout);
             profileImage = (ImageView) view.findViewById(R.id.profile_image);
             username = (TextView) view.findViewById(R.id.username);
             avatar = (ImageView) view.findViewById(R.id.avatar);
