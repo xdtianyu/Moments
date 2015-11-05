@@ -70,88 +70,8 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        if (holder instanceof TweetViewHolder) {
-
-            position = position - 1;
-
-            final TweetViewHolder tweetViewHolder = (TweetViewHolder) holder;
-            Sender sender = mTweets.get(position).getSender();
-            if (sender != null) {
-                tweetViewHolder.sender.setText(sender.getNick());
-                Picasso.with(mContext).load(sender.getAvatar())
-                        .fit()
-                        .centerCrop()
-                        .into(tweetViewHolder.avatar);
-            }
-
-            tweetViewHolder.content.setText(mTweets.get(position).getContent());
-
-            if (mTweets.get(position).getImages().size() > 0) {
-
-                tweetViewHolder.images.removeAllViewsInLayout();
-
-                // show images
-                for (Image image : mTweets.get(position).getImages()) {
-                    SquareImageView imageView =
-                            (SquareImageView) mLayoutInflater.inflate(R.layout.tweet_image,
-                                    tweetViewHolder.images, false);
-                    Picasso.with(mContext).load(image.getUrl())
-                            .fit()
-                            .centerCrop()
-                            .into(imageView);
-                    tweetViewHolder.images.addView(imageView);
-                    tweetViewHolder.images.invalidate();
-                }
-                tweetViewHolder.images.setVisibility(View.VISIBLE);
-            } else {
-                tweetViewHolder.images.setVisibility(View.GONE);
-            }
-
-            if (mTweets.get(position).getComments().size() > 0) {
-
-                Comment comment = mTweets.get(position).getComments().get(0);
-
-                Spanned content =
-                        Html.fromHtml("<font color=\"#669999\">" + comment.getSender().getNick()
-                                + "</font>: " + comment.getContent());
-
-                tweetViewHolder.comment.setText(content);
-                tweetViewHolder.commentLayout.setVisibility(View.VISIBLE);
-            } else {
-                tweetViewHolder.commentLayout.setVisibility(View.GONE);
-            }
-        } else if (holder instanceof HeaderViewHolder) {
-            if (mUser != null) {
-                final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-
-                headerViewHolder.profileLayout.setVisibility(View.VISIBLE);
-
-                if (mTweets.size() > 1) {
-                    headerViewHolder.headerLayout.setBackgroundColor(
-                            ContextCompat.getColor(mContext, R.color.tweet_background));
-                } else {
-                    headerViewHolder.headerLayout.setBackgroundColor(
-                            ContextCompat.getColor(mContext, R.color.transparent));
-                }
-
-                headerViewHolder.username.setText(mUser.getNick());
-                Picasso.with(mContext).load(mUser.getAvatar()).into(headerViewHolder.avatar);
-                Picasso.with(mContext).load(mUser.getProfileImage())
-                        .fit()
-                        .centerCrop()
-                        .into(headerViewHolder.profileImage);
-            }
-        } else if (holder instanceof FooterViewHolder) {
-            final FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
-            if (mHasMoreTweets) {
-                footerViewHolder.footerText.setVisibility(View.GONE);
-                footerViewHolder.progressView.setVisibility(View.VISIBLE);
-            } else {
-                footerViewHolder.progressView.setVisibility(View.GONE);
-                footerViewHolder.footerText.setText(R.string.no_more_tweets);
-                footerViewHolder.footerText.setVisibility(View.VISIBLE);
-            }
-        }
+        ((IViewHolder) holder).bindViews(position);
+        
     }
 
     @Override
@@ -190,7 +110,13 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
         mHasMoreTweets = hasMoreTweets;
     }
 
-    public static class TweetViewHolder extends RecyclerView.ViewHolder {
+    interface IViewHolder {
+
+        void bindViews(int position);
+
+    }
+
+    public class TweetViewHolder extends RecyclerView.ViewHolder implements IViewHolder {
 
         ImageView avatar;
         TextView sender;
@@ -209,9 +135,61 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             commentLayout = (LinearLayout) view.findViewById(R.id.comment_layout);
             images = (FlowLayout) view.findViewById(R.id.images);
         }
+
+        @Override
+        public void bindViews(int position) {
+            position = position - 1;
+
+            Sender tweetSender = mTweets.get(position).getSender();
+            if (tweetSender != null) {
+                sender.setText(tweetSender.getNick());
+                Picasso.with(mContext).load(tweetSender.getAvatar())
+                        .fit()
+                        .centerCrop()
+                        .into(avatar);
+            }
+
+            content.setText(mTweets.get(position).getContent());
+
+            if (mTweets.get(position).getImages().size() > 0) {
+
+                images.removeAllViewsInLayout();
+
+                // show images
+                for (Image image : mTweets.get(position).getImages()) {
+                    SquareImageView imageView =
+                            (SquareImageView) mLayoutInflater.inflate(R.layout.tweet_image,
+                                    images, false);
+                    Picasso.with(mContext).load(image.getUrl())
+                            .fit()
+                            .centerCrop()
+                            .into(imageView);
+                    images.addView(imageView);
+                    images.invalidate();
+                }
+                images.setVisibility(View.VISIBLE);
+            } else {
+                images.setVisibility(View.GONE);
+            }
+
+            if (mTweets.get(position).getComments().size() > 0) {
+
+                Comment tweetComment = mTweets.get(position).getComments().get(0);
+
+                Spanned content =
+                        Html.fromHtml(
+                                "<font color=\"#669999\">" + tweetComment.getSender().getNick()
+                                        + "</font>: " + tweetComment.getContent());
+
+                comment.setText(content);
+                commentLayout.setVisibility(View.VISIBLE);
+            } else {
+                commentLayout.setVisibility(View.GONE);
+            }
+        }
     }
 
-    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+    public class HeaderViewHolder extends RecyclerView.ViewHolder implements IViewHolder {
 
         FrameLayout headerLayout;
         RelativeLayout profileLayout;
@@ -228,9 +206,32 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             username = (TextView) view.findViewById(R.id.username);
             avatar = (ImageView) view.findViewById(R.id.avatar);
         }
+
+        @Override
+        public void bindViews(int position) {
+            if (mUser != null) {
+
+                profileLayout.setVisibility(View.VISIBLE);
+
+                if (mTweets.size() > 1) {
+                    headerLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.tweet_background));
+                } else {
+                    headerLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.transparent));
+                }
+
+                username.setText(mUser.getNick());
+                Picasso.with(mContext).load(mUser.getAvatar()).into(avatar);
+                Picasso.with(mContext).load(mUser.getProfileImage())
+                        .fit()
+                        .centerCrop()
+                        .into(profileImage);
+            }
+        }
     }
 
-    public static class FooterViewHolder extends RecyclerView.ViewHolder {
+    public class FooterViewHolder extends RecyclerView.ViewHolder implements IViewHolder {
 
         ProgressView progressView;
         TextView footerText;
@@ -239,6 +240,18 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             super(view);
             progressView = (ProgressView) view.findViewById(R.id.footer_progress);
             footerText = (TextView) view.findViewById(R.id.footer_text);
+        }
+
+        @Override
+        public void bindViews(int position) {
+            if (mHasMoreTweets) {
+                footerText.setVisibility(View.GONE);
+                progressView.setVisibility(View.VISIBLE);
+            } else {
+                progressView.setVisibility(View.GONE);
+                footerText.setText(R.string.no_more_tweets);
+                footerText.setVisibility(View.VISIBLE);
+            }
         }
     }
 }
