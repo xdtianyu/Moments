@@ -4,8 +4,9 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.text.Html;
-import android.text.Spanned;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         ((IViewHolder) holder).bindViews(position);
-        
+
     }
 
     @Override
@@ -173,16 +174,21 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             }
 
             if (mTweets.get(position).getComments().size() > 0) {
+                comment.setText("");
+                for (Comment tweetComment : mTweets.get(position).getComments()) {
 
-                Comment tweetComment = mTweets.get(position).getComments().get(0);
+                    SpannableString name = new SpannableString(tweetComment.getSender().getNick());
+                    name.setSpan(new ForegroundColorSpan(0xFF669999), 0, name.length(),
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    if (!comment.getText().toString().isEmpty()) {
+                        comment.append("\n");
+                    }
+                    comment.append(name);
+                    comment.append(": " + tweetComment.getContent());
+                }
 
-                Spanned content =
-                        Html.fromHtml(
-                                "<font color=\"#669999\">" + tweetComment.getSender().getNick()
-                                        + "</font>: " + tweetComment.getContent());
-
-                comment.setText(content);
                 commentLayout.setVisibility(View.VISIBLE);
+
             } else {
                 commentLayout.setVisibility(View.GONE);
             }
