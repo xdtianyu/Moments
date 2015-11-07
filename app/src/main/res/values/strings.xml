@@ -5,10 +5,13 @@
     <string name="network_error">Network error</string>
     <string name="avatar">avatar</string>
     <string name="profile_image">profile image</string>
-    <string name="username"> </string>
     <string name="image">image</string>
     <string name="sent_time">Yesterday</string>
     <string name="reply">reply</string>
     <string name="no_more_tweets">No more tweets found.</string>
     <string name="footer_text">Loading...</string>
+    <string name="username">username</string>
+    <string name="send">Send</string>
+    <string name="input_comment">Input comment</string>
+    <string name="empty_comment">Comment can not be empty.</string>
 </resources>

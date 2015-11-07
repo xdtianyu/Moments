@@ -48,6 +48,8 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private boolean mHasMoreTweets = true;
 
+    private OnReplyClickListener mOnReplyClickListener;
+
     public TweetAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -111,10 +113,18 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
         mHasMoreTweets = hasMoreTweets;
     }
 
+    public void setOnReplyClickListener(OnReplyClickListener listener) {
+        mOnReplyClickListener = listener;
+    }
+
     interface IViewHolder {
 
         void bindViews(int position);
 
+    }
+
+    public interface OnReplyClickListener {
+        void onReplyClick(int tweetId);
     }
 
     public class TweetViewHolder extends RecyclerView.ViewHolder implements IViewHolder {
@@ -122,9 +132,12 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
         ImageView avatar;
         TextView sender;
         TextView content;
+        ImageView reply;
         TextView comment;
         LinearLayout commentLayout;
         FlowLayout images;
+
+        Tweet tweet;
 
         public TweetViewHolder(View view) {
             super(view);
@@ -132,16 +145,26 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
             avatar = (ImageView) view.findViewById(R.id.avatar);
             sender = (TextView) view.findViewById(R.id.sender);
             content = (TextView) view.findViewById(R.id.content);
+            reply = (ImageView) view.findViewById(R.id.reply);
             comment = (TextView) view.findViewById(R.id.comment);
             commentLayout = (LinearLayout) view.findViewById(R.id.comment_layout);
             images = (FlowLayout) view.findViewById(R.id.images);
+
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnReplyClickListener.onReplyClick(tweet.getID());
+                }
+            });
         }
 
         @Override
         public void bindViews(int position) {
             position = position - 1;
 
-            Sender tweetSender = mTweets.get(position).getSender();
+            tweet = mTweets.get(position);
+
+            Sender tweetSender = tweet.getSender();
             if (tweetSender != null) {
                 sender.setText(tweetSender.getNick());
                 Picasso.with(mContext).load(tweetSender.getAvatar())
@@ -150,14 +173,14 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
                         .into(avatar);
             }
 
-            content.setText(mTweets.get(position).getContent());
+            content.setText(tweet.getContent());
 
-            if (mTweets.get(position).getImages().size() > 0) {
+            if (tweet.getImages().size() > 0) {
 
                 images.removeAllViewsInLayout();
 
                 // show images
-                for (Image image : mTweets.get(position).getImages()) {
+                for (Image image : tweet.getImages()) {
                     SquareImageView imageView =
                             (SquareImageView) mLayoutInflater.inflate(R.layout.tweet_image,
                                     images, false);
@@ -173,9 +196,9 @@ public class TweetAdapter extends RecyclerView.Adapter<ViewHolder> {
                 images.setVisibility(View.GONE);
             }
 
-            if (mTweets.get(position).getComments().size() > 0) {
+            if (tweet.getComments().size() > 0) {
                 comment.setText("");
-                for (Comment tweetComment : mTweets.get(position).getComments()) {
+                for (Comment tweetComment : tweet.getComments()) {
 
                     SpannableString name = new SpannableString(tweetComment.getSender().getNick());
                     name.setSpan(new ForegroundColorSpan(0xFF669999), 0, name.length(),

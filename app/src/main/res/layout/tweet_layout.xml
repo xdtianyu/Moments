@@ -10,9 +10,9 @@
         android:id="@+id/avatar"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:contentDescription="@string/avatar"
+        android:layout_margin="10dp"
         android:background="@xml/tweet_avatar_bg"
-        android:layout_margin="10dp"/>
+        android:contentDescription="@string/avatar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
